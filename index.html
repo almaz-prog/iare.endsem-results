@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Semester Result Portal</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .container {
+            background: white;
+            width: 400px;
+            margin: auto;
+            padding: 25px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            font-size: 16px;
+            margin-bottom: 20px;
+            font-weight: normal;
+        }
+
+        input, select {
+            width: 90%;
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 95%;
+            padding: 10px;
+            margin-top: 10px;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .loading {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .progress {
+            width: 100%;
+            background: #eee;
+            height: 20px;
+            margin-top: 10px;
+        }
+
+        .bar {
+            height: 100%;
+            width: 0%;
+            background: #2c3e50;
+        }
+
+        video {
+            display: none;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .footer {
+            margin-top: 15px;
+            font-size: 11px;
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container" id="formBox">
+    <h1>UNIVERSITY EXAMINATION PORTAL</h1>
+    <h2>Semester Result System</h2>
+
+    <input type="text" id="name" placeholder="Full Name" required>
+    <input type="text" id="roll" placeholder="Roll Number" required>
+
+    <select id="branch">
+        <option>Select Branch</option>
+        <option>CSE</option>
+        <option>CSM</option>
+        <option>CSD</option>
+        <option>IT</option>
+        <option>Mech</option>
+        <option>Civil</option>
+        <option>ECE</option>
+        <option>EEE</option>
+    </select>
+
+    <button onclick="showLoading()">View Result</button>
+
+    <div class="footer">
+        Examination Records Division
+    </div>
+</div>
+
+<div class="container loading" id="loadingBox">
+    <h2>Fetching Result Data...</h2>
+    <p id="status">Verifying credentials...</p>
+
+    <div class="progress">
+        <div class="bar" id="bar"></div>
+    </div>
+
+    <video id="reel" muted playsinline>
+        <source src="Meow.mp4" type="video/mp4">
+    </video>
+</div>
+
+<script>
+    function showLoading() {
+        document.getElementById("formBox").style.display = "none";
+        document.getElementById("loadingBox").style.display = "block";
+
+        let bar = document.getElementById("bar");
+        let status = document.getElementById("status");
+        let video = document.getElementById("reel");
+
+        let messages = [
+            "Verifying credentials...",
+            "Accessing examination records...",
+            "Processing marks...",
+            "Finalizing result..."
+        ];
+
+        let width = 0;
+        let i = 0;
+
+        let interval = setInterval(() => {
+            width += 10;
+            bar.style.width = width + "%";
+
+            if (width % 25 === 0 && i < messages.length) {
+                status.innerText = messages[i++];
+            }
+
+            if (width >= 100) {
+                clearInterval(interval);
+                status.innerText = "Result Ready";
+
+                video.style.display = "block";
+
+                video.play().then(() => {
+                    video.muted = false; // Enable sound after autoplay
+                }).catch(err => {
+                    console.log("Autoplay blocked:", err);
+                });
+            }
+        }, 300);
+    }
+</script>
+
+</body>
+</html>
